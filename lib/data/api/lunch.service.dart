@@ -19,7 +19,7 @@ class LunchService {
       final List<dynamic> list = json.decode(response.body);
       List<Lunch> res = list.map((dynamic model) => Lunch.fromJson(model)).toList();
       return res;
-    } catch (e, s) {
+    } catch (e) {
       throw Exception('Lunch list not available');
     }
   }

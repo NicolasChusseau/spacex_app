@@ -1,40 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:spacex_app/data/models/lunch.model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spacex_app/data/models/launch.model.dart';
+import 'package:spacex_app/ui/cubit/favorites.state.dart';
+import 'package:spacex_app/utils/DateHelper.dart';
 
+import '../cubit/favorites.cubit.dart';
 import '../widget/link_button.dart';
 
-class LunchDetailsPage extends StatelessWidget {
-
-  const LunchDetailsPage({
+class LaunchDetailsPage extends StatelessWidget {
+  const LaunchDetailsPage({
     super.key,
-    required this.lunch
+    required this.launch,
   });
 
-  final Lunch lunch;
+  final Launch launch;
 
   @override
   Widget build(BuildContext context) {
-    final String imageUrl = lunch.links?.patch?.large ??
+    final String imageUrl = launch.links?.patch?.large ??
         'https://via.placeholder.com/600x400.png?text=No+Image';
-
-    final DateTime? date = lunch.dateUtc;
-    final String formattedDate = date != null
-        ? date.toString()
-        : 'Date inconnue';
-
-    final bool? success = lunch.success;
+    final DateTime? date = launch.dateUtc;
+    final String formattedDate = DateHelper.formatDate(date);
+    final bool? success = launch.success;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(lunch.name),
-      ),
+        title: Text(launch.name),
+        actions: [
+          BlocBuilder<FavoritesCubit, FavoritesState>(
+            builder: (context, state) {
+              final isFavorite = state.favoriteIds.contains(launch.id);
+              return IconButton(
+                icon: Icon(
+                  isFavorite ? Icons.star : Icons.star_border,
+                  color: Colors.amber,
+                ),
+                tooltip: isFavorite ? "Retirer des favoris" : "Ajouter aux favoris",
+                onPressed: () => context.read<FavoritesCubit>().toggleFavorite(context, launch.id),
+              );
+            },
+          ),
 
+        ],
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: Image.network(
@@ -51,18 +64,15 @@ class LunchDetailsPage extends StatelessWidget {
                 },
               ),
             ),
-
             const SizedBox(height: 20),
-
             Text(
-              lunch.name,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              launch.name,
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall
+                  ?.copyWith(fontWeight: FontWeight.bold),
             ),
-
             const SizedBox(height: 8),
-
             Row(
               children: [
                 const Icon(Icons.calendar_today, size: 18),
@@ -73,9 +83,7 @@ class LunchDetailsPage extends StatelessWidget {
                 ),
               ],
             ),
-
             const SizedBox(height: 12),
-
             Row(
               children: [
                 Icon(
@@ -98,55 +106,49 @@ class LunchDetailsPage extends StatelessWidget {
                 ),
               ],
             ),
-
             const SizedBox(height: 24),
-
             Text(
               "Détails de la mission",
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(fontWeight: FontWeight.bold),
             ),
-
             const SizedBox(height: 8),
-
             Text(
-              lunch.details ?? "Aucun détail disponible.",
+              launch.details ?? "Aucun détail disponible.",
               style: Theme.of(context).textTheme.bodyMedium,
             ),
-
             const SizedBox(height: 24),
-
-            if (lunch.links != null)
+            if (launch.links != null)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Liens",
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 12),
-
                   LinkButton(
                     icon: Icons.ondemand_video,
                     text: "Webcast",
-                    url: lunch.links?.webcast,
+                    url: launch.links?.webcast,
                   ),
                   LinkButton(
                     icon: Icons.article,
                     text: "Article",
-                    url: lunch.links?.article,
+                    url: launch.links?.article,
                   ),
                   LinkButton(
                     icon: Icons.public,
                     text: "Wikipedia",
-                    url: lunch.links?.wikipedia,
+                    url: launch.links?.wikipedia,
                   ),
                 ],
               ),
-
             const SizedBox(height: 40),
           ],
         ),

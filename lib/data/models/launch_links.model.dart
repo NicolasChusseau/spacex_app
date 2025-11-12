@@ -1,12 +1,12 @@
-import 'lunch_patch.model.dart';
+import 'launch_patch.model.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 
-part 'lunch_links.model.g.dart';
+part 'launch_links.model.g.dart';
 
 @JsonSerializable()
-class LunchLinks {
-  const LunchLinks ({
+class LaunchLinks {
+  const LaunchLinks ({
     required this.webcast,
     required this.article,
     required this.wikipedia,
@@ -16,16 +16,16 @@ class LunchLinks {
   final String? webcast;
   final String? article;
   final String? wikipedia;
-  final LunchPatch? patch;
+  final LaunchPatch? patch;
 
-  factory LunchLinks.fromJson(Map<String, dynamic> json) => _$LunchLinksFromJson(json);
+  factory LaunchLinks.fromJson(Map<String, dynamic> json) => _$LaunchLinksFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LunchLinksToJson(this);
+  Map<String, dynamic> toJson() => _$LaunchLinksToJson(this);
 
-  static LunchLinks mock(int id) => LunchLinks(
+  static LaunchLinks mock(int id) => LaunchLinks(
     webcast: 'https://www.youtube.com/watch?$id',
     article: 'https://example.com/article/$id',
     wikipedia: 'https://en.wikipedia.org/wiki/SpaceX_Launch_$id',
-    patch: LunchPatch.mock(id),
+    patch: LaunchPatch.mock(id),
   );
 }

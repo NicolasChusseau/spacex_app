@@ -1,12 +1,12 @@
-import 'lunch_links.model.dart';
+import 'launch_links.model.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 
-part 'lunch.model.g.dart';
+part 'launch.model.g.dart';
 
 @JsonSerializable()
-class Lunch {
-  const Lunch({
+class Launch {
+  const Launch({
     required this.id,
     required this.name,
     required this.details,
@@ -24,26 +24,26 @@ class Lunch {
   final DateTime? dateUtc;
   final bool? success;
 
-  final LunchLinks? links;
+  final LaunchLinks? links;
 
-  factory Lunch.fromJson(Map<String, dynamic> json) => _$LunchFromJson(json);
+  factory Launch.fromJson(Map<String, dynamic> json) => _$LaunchFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LunchToJson(this);
+  Map<String, dynamic> toJson() => _$LaunchToJson(this);
 
-  static Lunch mock({
+  static Launch mock({
     int id = 1,
   }) =>
-      Lunch(
+      Launch(
         id: '$id',
-        name: 'Lunch $id',
-        details: 'Details of lunch $id',
+        name: 'Launch $id',
+        details: 'Details of launch $id',
         rocket: 'Rocket $id',
         dateUtc: DateTime.now().subtract(Duration(days: id * 10)),
         success: id % 2 == 0,
-        links: LunchLinks.mock(id)
+        links: LaunchLinks.mock(id)
       );
 
-  static List<Lunch> mocks() => List<Lunch>.generate(
+  static List<Launch> mocks() => List<Launch>.generate(
     50,
         (int index) => mock(id: index + 1),
   );

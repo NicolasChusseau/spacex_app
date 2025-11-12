@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'lunch.model.dart';
+part of 'launch.model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Lunch _$LunchFromJson(Map<String, dynamic> json) => Lunch(
+Launch _$LaunchFromJson(Map<String, dynamic> json) => Launch(
   id: json['id'] as String,
   name: json['name'] as String,
   details: json['details'] as String?,
@@ -17,10 +17,10 @@ Lunch _$LunchFromJson(Map<String, dynamic> json) => Lunch(
   success: json['success'] as bool?,
   links: json['links'] == null
       ? null
-      : LunchLinks.fromJson(json['links'] as Map<String, dynamic>),
+      : LaunchLinks.fromJson(json['links'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$LunchToJson(Lunch instance) => <String, dynamic>{
+Map<String, dynamic> _$LaunchToJson(Launch instance) => <String, dynamic>{
   'id': instance.id,
   'name': instance.name,
   'details': instance.details,

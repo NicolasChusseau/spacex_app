@@ -1,19 +1,19 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'lunch_patch.model.g.dart';
+part 'launch_patch.model.g.dart';
 
 @JsonSerializable()
-class LunchPatch {
+class LaunchPatch {
   final String? small;
   final String? large;
 
-  LunchPatch({this.small, this.large});
+  LaunchPatch({this.small, this.large});
 
-  factory LunchPatch.fromJson(Map<String, dynamic> json) => _$LunchPatchFromJson(json);
+  factory LaunchPatch.fromJson(Map<String, dynamic> json) => _$LaunchPatchFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LunchPatchToJson(this);
+  Map<String, dynamic> toJson() => _$LaunchPatchToJson(this);
 
-  static LunchPatch mock(int id) => LunchPatch(
+  static LaunchPatch mock(int id) => LaunchPatch(
         small: 'https://i.la-croix.com/836x/smart/2023/01/25/1201252298/Nasa-Pentagone-annonce-partenariatelaborer-fusee-propulsee-Mars-lenergie-nucleaire_0.jpg',
         large: 'https://i.la-croix.com/836x/smart/2023/01/25/1201252298/Nasa-Pentagone-annonce-partenariatelaborer-fusee-propulsee-Mars-lenergie-nucleaire_0.jpg',
       );

@@ -1,26 +1,26 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:spacex_app/data/models/lunch.model.dart';
+import 'package:spacex_app/data/models/launch.model.dart';
 
-class LunchService {
+class LaunchService {
 
   static final String _baseUrl = 'https://api.spacexdata.com/v4';
 
-  static Future<List<Lunch>> fetchLunchList() async {
+  static Future<List<Launch>> fetchLaunchList() async {
     final Uri url = Uri.parse('$_baseUrl/launches');
     final http.Response response = await http.get(url);
 
     if (response.statusCode != 200) {
-      throw Exception('Lunch list not available');
+      throw Exception('Launch list not available');
     }
 
     try {
       final List<dynamic> list = json.decode(response.body);
-      List<Lunch> res = list.map((dynamic model) => Lunch.fromJson(model)).toList();
+      List<Launch> res = list.map((dynamic model) => Launch.fromJson(model)).toList();
       return res;
     } catch (e) {
-      throw Exception('Lunch list not available');
+      throw Exception('Launch list not available');
     }
   }
 

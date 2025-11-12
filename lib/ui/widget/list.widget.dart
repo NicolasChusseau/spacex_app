@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 
-import '../../data/models/lunch.model.dart';
+import '../../data/models/launch.model.dart';
 
 class ListWidget extends StatelessWidget {
   const ListWidget({
     super.key,
-    required this.lunches,
+    required this.launches,
   });
 
-  final List<Lunch> lunches;
+  final List<Launch> launches;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-      itemCount: lunches.length,
+      itemCount: launches.length,
       itemBuilder: (BuildContext context, int index) {
-        final Lunch lunch = lunches[index];
-        final String title = lunch.name;
-        final DateTime date = lunch.dateUtc ?? DateTime(0);
+        final Launch launch = launches[index];
+        final String title = launch.name;
+        final DateTime date = launch.dateUtc ?? DateTime(0);
 
         return Card(
           margin: const EdgeInsets.symmetric(vertical: 6),

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../../data/models/lunch.model.dart';
-import 'grid_lunch_card.widget.dart';
+import '../../data/models/launch.model.dart';
+import 'grid_launch_card.widget.dart';
 
 class GridWidget extends StatelessWidget {
   const GridWidget({
     super.key,
-    required this.lunches,
+    required this.launches,
   });
 
-  final List<Lunch> lunches;
+  final List<Launch> launches;
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +36,11 @@ class GridWidget extends StatelessWidget {
         // plus large que haut.
         childAspectRatio: 1,
       ),
-      itemCount: lunches.length,
+      itemCount: launches.length,
       itemBuilder: (BuildContext context, int index) {
-        final Lunch lunch = lunches.elementAt(index);
+        final Launch launch = launches.elementAt(index);
 
-        return GridLunchCardWidget(lunch: lunch);
+        return GridLaunchCardWidget(launch: launch);
       });
   }
 }

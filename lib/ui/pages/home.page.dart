@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spacex_app/ui/cubit/lunches.cubit.dart';
-import 'package:spacex_app/ui/cubit/lunches.state.dart';
+import 'package:spacex_app/ui/cubit/launches.cubit.dart';
+import 'package:spacex_app/ui/cubit/launches.state.dart';
 import 'package:spacex_app/ui/cubit/display.cubit.dart';
 import 'package:spacex_app/ui/cubit/display.state.dart';
 import 'package:spacex_app/ui/widget/grid.widget.dart';
 import 'package:spacex_app/ui/widget/list.widget.dart';
 
-import '../../data/models/lunch.model.dart';
+import '../../data/models/launch.model.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -22,7 +22,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final LunchesCubit lunchCubit = LunchesCubit();
+  final LaunchesCubit launchCubit = LaunchesCubit();
   final DisplayCubit displayCubit = DisplayCubit();
 
   @override
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  void _loadData() => lunchCubit.getData();
+  void _loadData() => launchCubit.getData();
   void _toggleDisplay() => displayCubit.toggleDisplay();
 
   @override
@@ -50,19 +50,19 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            body: BlocBuilder<LunchesCubit, CubitState<List<Lunch>>>(
-                bloc: lunchCubit,
-                builder: (BuildContext context, CubitState<List<Lunch>> lunchListCubit) {
-                  if (lunchListCubit is FailureState) {
+            body: BlocBuilder<LaunchesCubit, CubitState<List<Launch>>>(
+                bloc: launchCubit,
+                builder: (BuildContext context, CubitState<List<Launch>> launchListCubit) {
+                  if (launchListCubit is FailureState) {
                     return Center(
-                      child: Text('Error : ${(lunchListCubit as FailureState).message}'),
+                      child: Text('Error : ${(launchListCubit as FailureState).message}'),
                     );
-                  } else if (lunchListCubit is SuccessState<List<Lunch>>) {
-                    List<Lunch> lunches = lunchListCubit.data;
+                  } else if (launchListCubit is SuccessState<List<Launch>>) {
+                    List<Launch> launches = launchListCubit.data;
                     if (displayCubit is ListState) {
-                      return ListWidget(lunches: lunches);
+                      return ListWidget(launches: launches);
                     } else {
-                      return GridWidget(lunches: lunches);
+                      return GridWidget(launches: launches);
                     }
                   }
                   else {

@@ -39,7 +39,6 @@ class GridWidget extends StatelessWidget {
       itemCount: launches.length,
       itemBuilder: (BuildContext context, int index) {
         final Launch launch = launches.elementAt(index);
-
         return GridLaunchCardWidget(launch: launch);
       });
   }

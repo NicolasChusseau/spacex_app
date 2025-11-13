@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:spacex_app/ui/pages/home.page.dart';
-
-const _kSeenOnboardingKey = 'has_seen_onboarding';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spacex_app/ui/cubit/onboarding.cubit.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({
@@ -36,12 +34,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
   ];
 
   Future<void> _completeOnboarding() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_kSeenOnboardingKey, true);
     if (!mounted) return;
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const HomePage()),
-    );
+    context.read<OnboardingCubit>().setSeen(true);
   }
 
   void _onNext() {
@@ -156,4 +150,3 @@ class _OnboardingTab extends StatelessWidget {
     );
   }
 }
-

@@ -10,14 +10,12 @@ import 'package:spacex_app/ui/widget/grid.widget.dart';
 import 'package:spacex_app/ui/widget/list.widget.dart';
 import 'package:spacex_app/ui/cubit/favorites.cubit.dart';
 import 'package:spacex_app/ui/cubit/favorites.state.dart';
+import 'package:spacex_app/ui/cubit/onboarding.cubit.dart';
 
 import '../../data/models/launch.model.dart';
 
 class HomePage extends StatefulWidget {
-
-  const HomePage({
-    super.key,
-  });
+  const HomePage({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -29,20 +27,21 @@ class _HomePageState extends State<HomePage> {
   final LaunchesCubit launchCubit = LaunchesCubit();
   final DisplayCubit displayCubit = DisplayCubit();
   final DisplayFavoritesCubit displayFavoritesCubit = DisplayFavoritesCubit();
-  final FavoritesCubit favoritesCubit = FavoritesCubit();
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) => _loadData());
-    favoritesCubit.loadFavorites();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadData();
+      context.read<FavoritesCubit>().loadFavorites();
+    });
   }
 
   void _loadData() => launchCubit.getData();
   void _toggleDisplay() => displayCubit.toggleDisplay();
 
   Future<void> _toggleDisplayFavorites() async {
-    await favoritesCubit.loadFavorites();
+    await context.read<FavoritesCubit>().loadFavorites();
     displayFavoritesCubit.toggleDisplayFavorites();
   }
 
@@ -51,7 +50,6 @@ class _HomePageState extends State<HomePage> {
     launchCubit.close();
     displayCubit.close();
     displayFavoritesCubit.close();
-    favoritesCubit.close();
     super.dispose();
   }
 
@@ -64,7 +62,7 @@ class _HomePageState extends State<HomePage> {
           bloc: displayFavoritesCubit,
           builder: (BuildContext context, DisplayFavoritesCubitState favoritesDisplayState) {
             return BlocBuilder<FavoritesCubit, FavoritesState>(
-              bloc: favoritesCubit,
+              bloc: context.read<FavoritesCubit>(),
               builder: (BuildContext context, FavoritesState favoritesState) {
                 return Scaffold(
                     appBar: AppBar(
@@ -84,6 +82,20 @@ class _HomePageState extends State<HomePage> {
                           icon: Icon(
                               displayState is GridState ? Icons.view_list : Icons.grid_view),
                         ),
+                        PopupMenuButton<String>(
+                          onSelected: (value) async {
+                            if (value == 'show_onboarding') {
+
+                              await context.read<OnboardingCubit>().setSeen(false);
+                            }
+                          },
+                          itemBuilder: (context) => [
+                            const PopupMenuItem(
+                              value: 'show_onboarding',
+                              child: Text('Afficher l\'onboarding'),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                     body: BlocBuilder<LaunchesCubit, CubitState<List<Launch>>>(
@@ -101,20 +113,14 @@ class _HomePageState extends State<HomePage> {
                             List<Launch> displayedLaunches = launches;
                             if (favoritesDisplayState is DisplayFavoritesState) {
                               displayedLaunches = launches
-                                  .where((l) => favoritesCubit.isFavorite(l.id))
+                                  .where((l) => context.read<FavoritesCubit>().isFavorite(l.id))
                                   .toList();
                             }
 
                             if (displayState is ListState) {
-                              return BlocProvider.value(
-                                value: favoritesCubit,
-                                child: ListWidget(launches: displayedLaunches),
-                              );
+                              return ListWidget(launches: displayedLaunches);
                             } else {
-                              return BlocProvider.value(
-                                value: favoritesCubit,
-                                child: GridWidget(launches: displayedLaunches),
-                              );
+                              return GridWidget(launches: displayedLaunches);
                             }
                           } else {
                             return const Center(

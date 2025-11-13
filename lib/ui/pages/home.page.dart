@@ -66,7 +66,10 @@ class _HomePageState extends State<HomePage> {
               builder: (BuildContext context, FavoritesState favoritesState) {
                 return Scaffold(
                     appBar: AppBar(
-                      title: const Text('SpaceX Launches'),
+                      title: InkWell(
+                        onTap: _loadData,
+                        child: const Text('SpaceX Launches'),
+                      ),
                       actions: [
                         IconButton(
                             onPressed: _toggleDisplayFavorites,

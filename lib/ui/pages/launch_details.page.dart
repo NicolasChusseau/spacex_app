@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spacex_app/data/models/launch.model.dart';
+import 'package:spacex_app/data/models/rocket.model.dart';
+import 'package:spacex_app/data/api/rocket.service.dart';
 import 'package:spacex_app/ui/cubit/favorites.state.dart';
 import 'package:spacex_app/utils/DateHelper.dart';
 
@@ -118,6 +120,72 @@ class LaunchDetailsPage extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 24),
+
+            FutureBuilder<Rocket>(
+              future: RocketService.fetchRocket(launch.rocket),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const SizedBox(
+                    height: 80,
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                }
+
+                if (snapshot.hasError) {
+                  return const SizedBox.shrink();
+                }
+
+                final Rocket? rocket = snapshot.data;
+                if (rocket == null) return const SizedBox.shrink();
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Fusée',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+
+                    Text(rocket.name, style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
+                    if (rocket.type != null) Text(rocket.type!, style: Theme.of(context).textTheme.bodySmall),
+                    const SizedBox(height: 8),
+
+                    Wrap(
+                      spacing: 12,
+                      children: [
+                        if (rocket.height != null) Text('Hauteur: ${rocket.height} m', style: Theme.of(context).textTheme.bodySmall),
+                        if (rocket.diameter != null) Text('Diamètre: ${rocket.diameter} m', style: Theme.of(context).textTheme.bodySmall),
+                        if (rocket.mass != null) Text('Masse: ${rocket.mass} kg', style: Theme.of(context).textTheme.bodySmall),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+
+                    if (rocket.description != null) ...[
+                      Text('Description', style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 6),
+                      Text(rocket.description!, style: Theme.of(context).textTheme.bodyMedium),
+                    ],
+                    const SizedBox(height: 8),
+
+                    if (rocket.wikipedia != null)
+                      GestureDetector(
+                        onTap: () async {
+                          try {
+                            await Future.value();
+                          } catch (_) {}
+                        },
+                        child: Text(
+                          'Wikipedia',
+                          style: const TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+                        ),
+                      ),
+                    const SizedBox(height: 12),
+                  ],
+                );
+              },
+            ),
+
             if (launch.links != null)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

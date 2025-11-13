@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:spacex_app/data/models/rocket.model.dart';
+import 'package:spacex_app/data/api/api_config.dart';
 
 class RocketService {
-  static final String _baseUrl = 'https://api.spacexdata.com/v4';
+  static final String _baseUrl = apiBaseUrl;
 
   static Future<Rocket> fetchRocket(String id) async {
     final Uri url = Uri.parse('$_baseUrl/rockets/$id');

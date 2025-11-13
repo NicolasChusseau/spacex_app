@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:spacex_app/data/models/launch.model.dart';
+import 'package:spacex_app/data/api/api_config.dart';
 
 class LaunchService {
-
-  static final String _baseUrl = 'https://api.spacexdata.com/v4';
+  static final String _baseUrl = apiBaseUrl;
 
   static Future<List<Launch>> fetchLaunchList() async {
     final Uri url = Uri.parse('$_baseUrl/launches');

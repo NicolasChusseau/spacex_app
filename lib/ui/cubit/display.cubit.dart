@@ -1,8 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'display.state.dart';
-
-
 
 class DisplayCubit extends Cubit<DisplayCubitState> {
   DisplayCubit() : super(ListState());

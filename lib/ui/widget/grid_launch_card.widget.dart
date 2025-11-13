@@ -45,6 +45,15 @@ class GridLaunchCardWidget extends StatelessWidget {
               child: Image.network(
                 imageUrl,
                 fit: BoxFit.cover,
+                width: double.infinity,
+                height: 220,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    height: 180,
+                    color: Colors.grey.shade300,
+                    child: const Icon(Icons.broken_image, size: 68),
+                  );
+                },
               ),
             ),
             Padding(

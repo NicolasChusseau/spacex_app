@@ -44,9 +44,7 @@ class GridLaunchCardWidget extends StatelessWidget {
             Expanded(
               child: Image.network(
                 imageUrl,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: 220,
+                fit: BoxFit.contain,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
                     height: 180,
@@ -96,10 +94,13 @@ class GridLaunchCardWidget extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        formattedDate,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey[600],
+                      Expanded(
+                        child: Text(
+                          formattedDate,
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Colors.grey[600],
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
                       Row(

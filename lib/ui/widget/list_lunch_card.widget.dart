@@ -40,7 +40,13 @@ class ListLunchCardWidget extends StatelessWidget {
               size: 16,
             ),
             const SizedBox(width: 8),
-            Text(title),
+            Expanded(
+              child: Text(
+                title,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ),
           ],
         ),
 

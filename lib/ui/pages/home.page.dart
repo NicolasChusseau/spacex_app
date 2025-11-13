@@ -74,7 +74,10 @@ class _HomePageState extends State<HomePage> {
                                 favoritesDisplayState is DisplayFavoritesState
                                     ? Icons.star
                                     : Icons.star_border
-                            )
+                            ),
+                          tooltip: favoritesDisplayState is DisplayFavoritesState
+                              ? 'Afficher tous les lancements'
+                              : 'Afficher les favoris uniquement',
                         ),
                         IconButton(
                           onPressed: _toggleDisplay,

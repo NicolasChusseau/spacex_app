@@ -119,11 +119,10 @@ class _OnboardingTab extends StatelessWidget {
   final String description;
 
   const _OnboardingTab({
-    Key? key,
     required this.icon,
     required this.title,
     required this.description,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

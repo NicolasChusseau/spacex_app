@@ -8,7 +8,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:spacex_app/main.dart';
 import 'package:spacex_app/ui/pages/home.page.dart';
 
 void main() {

@@ -52,9 +52,7 @@ class LaunchDetailsPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               child: Image.network(
                 imageUrl,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: 220,
+                fit: BoxFit.contain,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
                     height: 180,

@@ -10,9 +10,8 @@ import 'package:spacex_app/ui/widget/grid.widget.dart';
 import 'package:spacex_app/ui/widget/list.widget.dart';
 import 'package:spacex_app/ui/cubit/favorites.cubit.dart';
 import 'package:spacex_app/ui/cubit/favorites.state.dart';
-import 'package:spacex_app/ui/cubit/onboarding.cubit.dart';
-
 import '../../data/models/launch.model.dart';
+import '../widget/app_bar.widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -65,46 +64,14 @@ class _HomePageState extends State<HomePage> {
               bloc: context.read<FavoritesCubit>(),
               builder: (BuildContext context, FavoritesState favoritesState) {
                 return Scaffold(
-                    appBar: AppBar(
-                      title: InkWell(
-                        onTap: _loadData,
-                        child: const Text('SpaceX Launches'),
-                      ),
-                      actions: [
-                        IconButton(
-                            onPressed: _toggleDisplayFavorites,
-                            icon: Icon(
-                                favoritesDisplayState is DisplayFavoritesState
-                                    ? Icons.star
-                                    : Icons.star_border
-                            ),
-                          tooltip: favoritesDisplayState is DisplayFavoritesState
-                              ? 'Afficher tous les lancements'
-                              : 'Afficher les favoris uniquement',
-                        ),
-                        IconButton(
-                          onPressed: _toggleDisplay,
-                          tooltip: 'Changer la disposition',
-                          icon: Icon(
-                              displayState is GridState ? Icons.view_list : Icons.grid_view),
-                        ),
-                        PopupMenuButton<String>(
-                          onSelected: (value) async {
-                            if (value == 'show_onboarding') {
-
-                              await context.read<OnboardingCubit>().setSeen(false);
-                            }
-                          },
-                          itemBuilder: (context) => [
-                            const PopupMenuItem(
-                              value: 'show_onboarding',
-                              child: Text('Afficher l\'onboarding'),
-                            ),
-                          ],
-                        ),
-                      ],
+                    appBar: SpaceXAppBarWidget(
+                      onTitleTap: _loadData,
+                      onToggleDisplayFavorites: _toggleDisplayFavorites,
+                      favoritesDisplayState: favoritesDisplayState,
+                      onToggleDisplay: _toggleDisplay,
+                      displayState: displayState,
                     ),
-                    body: BlocBuilder<LaunchesCubit, CubitState<List<Launch>>>(
+                     body: BlocBuilder<LaunchesCubit, CubitState<List<Launch>>>(
                         bloc: launchCubit,
                         builder: (BuildContext context,
                             CubitState<List<Launch>> launchListCubit) {

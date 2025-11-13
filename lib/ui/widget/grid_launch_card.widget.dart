@@ -108,15 +108,7 @@ class GridLaunchCardWidget extends StatelessWidget {
                             success == true ? Icons.check_circle : Icons.cancel,
                             color: success == true ? Colors.green : Colors.redAccent,
                             size: 18,
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                            success == true ? 'Succès' : 'Échec',
-                            style: TextStyle(
-                              color: success == true ? Colors.green[700] : Colors.red[700],
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
+                          )
                         ],
                       ),
                     ],
